@@ -1,0 +1,45 @@
+
+body {
+  padding-top: 56px;
+}
+
+.bg-image-full {
+	background: no-repeat center center scroll;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+}
+
+ul {
+	list-style-type: none;
+}
+
+.bio {
+	margin-bottom: 50px;
+}
+
+.bio-img {
+	float: left;
+	margin-right: 10px;
+	max-height: 100px; 
+	max-width: 100px;
+}
+
+.img-donor {
+	margin: 5px;
+	max-width: 100;
+	width: 28%;
+
+}
+
+.card {
+	-webkit-box-shadow: 0 10px 6px -6px #777;
+       -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;
+}
+
+.header-image {
+	width: 25%;
+	max-width: 150px;
+}
