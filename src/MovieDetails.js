@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 const MovieDetails = (result) => {
     return <div className="card col-sm-4 result-card mr-2 mb-2">
@@ -12,7 +12,7 @@ const MovieDetails = (result) => {
                             <h6 className="card-title">{result.title} ({result.year}) <em>{result.ranking}</em></h6>
                             <p>
                                 <span className="badge badge-info card-badges">{result.rated} </span>
-                                <span className="badge badge-info card-badges">{result.runtime} </span>
+                                <span className="badge badge-info card-badges">{result.runtime} min</span>
                                 <span className="badge badge-info card-badges">{result.genre}</span>
                             </p>
                             <p><em>Plot:</em> {result.plot}</p>
@@ -24,5 +24,8 @@ const MovieDetails = (result) => {
                 </div>
             </div>;
             }
+            
+    
+
 
 export default MovieDetails;

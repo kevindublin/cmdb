@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const ResultCard = (result) => {
-    return <div className="col-sm-2 mb-5">
+    return <div className="col-sm-2 mb-1">
                 <div className="card result-card">
                     <img className="card-img-top" src={result.poster} alt="poster" />
                     <div className="card-body">
