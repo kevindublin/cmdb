@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import banner from './banner.png'
+import banner from './banner.png';
 import getMoviesByNameB from './utils.js';
-import ResultCard from './ResultCard.js'
-import MovieDetails from './MovieDetails.js'
+import ResultList from './ResultList.js';
+import MovieDetails from './MovieDetails.js';
+import LoadingResults from './LoadingResults.js';
+import ErrorMessage from './ErrorMessage.js'
 
 
 class App extends Component {
@@ -10,45 +12,12 @@ class App extends Component {
     super(props);
     
     this.state = {
-      query: "Furious",
-      results: [
-        {Poster: "https://m.media-amazon.com/images/M/MV5BMTQxOTA2NDUzOV5BMl5BanBnXkFtZTgwNzY2MTMxMzE@._V1_SX300.jpg",
-        Title: "Furious 7",
-        Type: "Movie",
-        Year: "2015",
-        imdbRating: "7.1",
-        Runtime: "137 min",
-        Rated: "PG-13",
-        Genre: "Action, Adventure, Thriller",
-        Plot: "Deckard Shaw seeks revenge against Dominic Toretto and his family for his comatose brother.",
-        Actors: "Vin Diesel, Paul Walker, Jason Statham, Michelle Rodriguez"
-      },
-      {Poster: "https://m.media-amazon.com/images/M/MV5BMTQxOTA2NDUzOV5BMl5BanBnXkFtZTgwNzY2MTMxMzE@._V1_SX300.jpg",
-        Title: "Furious 7",
-        Type: "Movie",
-        Year: "2015",
-        imdbRating: "7.1",
-        Runtime: "137 min",
-        Rated: "PG-13",
-        Genre: "Action, Adventure, Thriller",
-        Plot: "Deckard Shaw seeks revenge against Dominic Toretto and his family for his comatose brother.",
-        Actors: "Vin Diesel, Paul Walker, Jason Statham, Michelle Rodriguez"
-      },
-      {Poster: "https://m.media-amazon.com/images/M/MV5BMTQxOTA2NDUzOV5BMl5BanBnXkFtZTgwNzY2MTMxMzE@._V1_SX300.jpg",
-        Title: "Furious 7",
-        Type: "Movie",
-        Year: "2015",
-        imdbRating: "7.1",
-        Runtime: "137 min",
-        Rated: "PG-13",
-        Genre: "Action, Adventure, Thriller",
-        Plot: "Deckard Shaw seeks revenge against Dominic Toretto and his family for his comatose brother.",
-        Actors: "Vin Diesel, Paul Walker, Jason Statham, Michelle Rodriguez"
-      }
-      ],
+      query: "",
+      results: [],
       isLoading: false,
       gotResults: false,
       error: null,
+      showDetails: false,
     }
     
   }
@@ -56,18 +25,32 @@ class App extends Component {
   onSearchChange = (ev) => {
     let value = ev.target.value;
     this.setState({...this.state,
-      query: value});
+      query: value,});
   }
   
   onSearchSubmit = async () => {
-    let rawResults = await getMoviesByNameB(this.state.query);
-    let newResults = rawResults['Search']
-    console.log("new results", newResults)
-  
     this.setState({...this.state,
-      results: newResults,
-      gotResults: true});
-    console.log("after submit:", this.state);
+      isLoading: true});
+    try {
+      let rawResults = await getMoviesByNameB(this.state.query);
+      let newResults = rawResults['Search']
+      console.log("new results=>", newResults);
+
+      this.setState({...this.state,
+        results: newResults,
+        gotResults: true,
+        isLoading: false});
+
+    } catch(err) {
+        console.log(err);
+        this.setState({
+          ...this.state,
+          isLoading: false,
+          error: err['Error'],
+          gotResults: false,
+        });
+    }
+  
   }
 
   componentDidMount() {
@@ -95,15 +78,17 @@ componentDidUpdate() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <img className="header-image" src={banner} alt="banner" />
+              <div>
+                <img className="header-image img-fluid" src={banner} alt="banner" />
+              </div>
               <p className="lead mt-5 text-center">Because you want to search on YAMD</p>
             </div>
           </div>
           <div className="row">
             <hr />
-            <div className="form-group row">
+            <div className="form-group">
               <div className="col-sm-10">
-                <input className="form-control" 
+                <input className="form-control-lg" 
                   id="searchQuery" 
                   placeholder="search..."
                   onChange={this.onSearchChange} />
@@ -115,17 +100,19 @@ componentDidUpdate() {
           <h2>Search Results</h2>
           <hr />
           <div className="row mb-2">
-  
+            { this.state.isLoading &&
+             <LoadingResults/>
+            }
+
+            { this.state.error && 
+              <ErrorMessage
+              error={this.state.error}
+            />
+            }
+
             { this.state.gotResults &&
-              this.state.results.slice(0,6).map((result) => (
-                <ResultCard 
-                  key={result.imdbID}
-                  poster={result.Poster} 
-                  title={result.Title} 
-                  type={result.Type} 
-                  year={result.Year}
-                  />
-              ))
+            <ResultList
+            results={this.state.results} />
             }
           </div>
           <div className="row mb-2">

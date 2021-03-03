@@ -15,8 +15,19 @@ span {
 	width: fit-content;
 }
 
+.header-image {
+	width: 100%;
+}
+
 .result-card {
 	min-width: 6rem;
 	max-width: 12rem;
-	min-height: 24rem;
+	min-height: 64rem;
+	max-height: 20rem;
 }
+
+.svg-loader{
+	height: 20vmin;
+	padding: 3vmin 20vmin;
+	vertical-align: top;
+  }
