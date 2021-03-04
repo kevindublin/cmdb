@@ -2,7 +2,7 @@ import React from 'react';
 
 const ErrorMessage = (props) => {
     return <>
-        <h3>{props.error}</h3>
+        <h5>Error: {props.error}</h5>
     </>
 }
 

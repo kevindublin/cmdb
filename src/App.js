@@ -17,7 +17,7 @@ class App extends Component {
       isLoading: false,
       gotResults: false,
       error: null,
-      showDetails: false,
+      viewingDetails: false,
     }
     
   }
@@ -33,24 +33,49 @@ class App extends Component {
       isLoading: true});
     try {
       let rawResults = await getMoviesByNameB(this.state.query);
-      let newResults = rawResults['Search']
-      console.log("new results=>", newResults);
+      if (rawResults['Response'] === 'False') {
+        this.setState({...this.state,
+          results: [],
+          isLoading: false,
+          error: rawResults['Error'],
+          gotResults: false,})
+      } else {
+        let newResults = rawResults['Search']
+        console.log("new results=>", newResults);
 
-      this.setState({...this.state,
-        results: newResults,
-        gotResults: true,
-        isLoading: false});
+        this.setState({...this.state,
+          results: newResults,
+          error: null,
+          gotResults: true,
+          isLoading: false});
+
+      }
 
     } catch(err) {
         console.log(err);
         this.setState({
           ...this.state,
+          results: [],
           isLoading: false,
           error: err['Error'],
           gotResults: false,
+          viewingDetails: false,
         });
     }
   
+  }
+
+  viewResultDetails(result) {
+    if (this.state.viewingDetails === true) {
+      this.setState({...this.state,
+                      viewingDetails: false,
+                      gotResults: true});
+    } else {
+      this.setState({...this.state,
+        viewingDetails: true,
+        gotResults: false,
+      });
+    }
   }
 
   componentDidMount() {
@@ -114,26 +139,24 @@ componentDidUpdate() {
             <ResultList
             results={this.state.results} />
             }
+
+            {/* { this.state.viewResultDetails &&
+              <MovieDetails 
+              key={this.state.result.imdbID}
+              poster={this.state.result.Poster}
+              runtime={this.state.result.Runtime}
+              rated={this.state.result.Rated}
+              genre={this.state.result.Genre} 
+              title={this.state.result.Title}
+              plot={this.state.result.Plot}
+              ranking={this.state.result.Ranking} 
+              type={this.state.result.Type} 
+              year={this.state.result.Year}
+              starring={this.state.result.Actors}
+              />
+            } */}
           </div>
           <div className="row mb-2">
-  
-            {/* { state.gotResults &&
-              state.results.slice(0,2).map((result) => (
-                <MovieDetails 
-                  key={result.imdbID}
-                  poster={result.Poster}
-                  runtime={result.Runtime}
-                  rated={result.Rated}
-                  genre={result.Genre} 
-                  title={result.Title}
-                  plot={result.Plot}
-                  ranking={result.Ranking} 
-                  type={result.Type} 
-                  year={result.Year}
-                  starring={result.Actors}
-                  />
-              ))
-            } */}
           </div>
           
         </div>
