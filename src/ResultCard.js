@@ -1,5 +1,4 @@
 import React from 'react';
-import testUtils from 'react-dom/test-utils';
 import noPoster from './no-poster.png'
 
 const truncate = (str, len) => {
@@ -8,7 +7,9 @@ const truncate = (str, len) => {
 
 const ResultCard = (result) => {
     return <div className="col-sm-2 mb-3">
-                <div className="card result-card">
+                <div className="card result-card"
+                    style={{cursor: 'pointer'}} 
+                    onClick={result.getDetails}>
                     {result.poster === 'N/A'
                         ? <img className="card-img-top" src={noPoster} alt="poster" />
                         : <img className="card-img-top" src={result.poster} alt="poster" />

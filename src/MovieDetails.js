@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const MovieDetails = (result) => {
     return <div className="card col-sm-4 result-card mr-2 mb-2">

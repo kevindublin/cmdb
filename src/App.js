@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import banner from './banner.png';
-import getMoviesByNameB from './utils.js';
+import { getResultsByName, getResultById } from './Utils.js';
 import ResultList from './ResultList.js';
 import MovieDetails from './MovieDetails.js';
+import ResultCard from './ResultCard.js'
 import LoadingResults from './LoadingResults.js';
 import ErrorMessage from './ErrorMessage.js'
+import Modal from './Modal.js'
 
 
 class App extends Component {
@@ -18,8 +20,11 @@ class App extends Component {
       gotResults: false,
       error: null,
       viewingDetails: false,
+      showModal: false,
+      currentResult: null,
     }
-    
+    this.viewResultDetails = this.viewResultDetails.bind(this)
+    this.setModalState = this.setModalState.bind(this)
   }
 
   onSearchChange = (ev) => {
@@ -32,7 +37,7 @@ class App extends Component {
     this.setState({...this.state,
       isLoading: true});
     try {
-      let rawResults = await getMoviesByNameB(this.state.query);
+      let rawResults = await getResultsByName(this.state.query);
       if (rawResults['Response'] === 'False') {
         this.setState({...this.state,
           results: [],
@@ -65,15 +70,24 @@ class App extends Component {
   
   }
 
-  viewResultDetails(result) {
+  setModalState() {
+    
+
+  }
+
+  viewResultDetails = async (imdbID) => {
     if (this.state.viewingDetails === true) {
       this.setState({...this.state,
                       viewingDetails: false,
-                      gotResults: true});
+                      gotResults: true,
+                    });
     } else {
+      let newResult = await getResultById(imdbID);
+      console.log("this is the new result=>", newResult);
       this.setState({...this.state,
         viewingDetails: true,
         gotResults: false,
+        currentResult: newResult,
       });
     }
   }
@@ -83,7 +97,7 @@ class App extends Component {
       isLoading: true
     });
 
-    getMoviesByNameB(this.state.query)
+    getResultsByName(this.state.query)
     .then(data => {
       this.setState({
         isLoading: false,
@@ -98,6 +112,8 @@ componentDidUpdate() {
 }
 
   render() {
+    
+
     return (
       <div className="App">
         <div className="container">
@@ -134,25 +150,52 @@ componentDidUpdate() {
               error={this.state.error}
             />
             }
-
+            {this.state.viewingDetails &&
+            <Modal 
+              show={this.state.viewingDetails}
+              onClose={this.viewResultDetails}>
+                 <MovieDetails
+                  key={this.state.currentResult.imdbID}
+                  poster={this.state.currentResult.Poster}
+                  runtime={this.state.currentResult.Runtime}
+                  rated={this.state.currentResult.Rated}
+                  genre={this.state.currentResult.Genre} 
+                  title={this.state.currentResult.Title}
+                  plot={this.state.currentResult.Plot}
+                  ranking={this.state.currentResult.Ranking} 
+                  type={this.state.currentResult.Type} 
+                  year={this.state.currentResult.Year}
+                  starring={this.state.currentResult.Actors}/>
+            </Modal>
+            
+            }
             { this.state.gotResults &&
             <ResultList
-            results={this.state.results} />
+            results={this.state.results}
+            render={(result) => (
+              <ResultCard 
+                key={result.imdbID}
+                poster={result.Poster} 
+                title={result.Title} 
+                type={result.Type} 
+                year={result.Year}
+                getDetails={() => this.viewResultDetails(result.imdbID)}/>
+            )}/>
             }
 
-            {/* { this.state.viewResultDetails &&
-              <MovieDetails 
-              key={this.state.result.imdbID}
-              poster={this.state.result.Poster}
-              runtime={this.state.result.Runtime}
-              rated={this.state.result.Rated}
-              genre={this.state.result.Genre} 
-              title={this.state.result.Title}
-              plot={this.state.result.Plot}
-              ranking={this.state.result.Ranking} 
-              type={this.state.result.Type} 
-              year={this.state.result.Year}
-              starring={this.state.result.Actors}
+            {/* { this.state.viewingDetails &&
+              <MovieDetails
+              key={this.state.currentResult.imdbID}
+              poster={this.state.currentResult.Poster}
+              runtime={this.state.currentResult.Runtime}
+              rated={this.state.currentResult.Rated}
+              genre={this.state.currentResult.Genre} 
+              title={this.state.currentResult.Title}
+              plot={this.state.currentResult.Plot}
+              ranking={this.state.rcurrentResult.Ranking} 
+              type={this.state.currentResult.Type} 
+              year={this.state.currentResult.Year}
+              starring={this.state.currentResult.Actors}
               />
             } */}
           </div>
