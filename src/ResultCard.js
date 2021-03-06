@@ -6,7 +6,7 @@ const truncate = (str, len) => {
 }
 
 const ResultCard = (result) => {
-    return <div className="col-sm-2 mb-3">
+    return <div className="col-sm-3 mb-3">
                 <div className="card result-card"
                     style={{cursor: 'pointer'}} 
                     onClick={result.getDetails}>
@@ -16,7 +16,7 @@ const ResultCard = (result) => {
                     }
                     <div className="card-body">
                             <p className="card-text">{truncate(result.title, 20)} ({truncate(result.year, 7)})</p>
-                        <span className="badge badge-info">{result.type}</span>
+                        <span className="badge badge-danger">{result.type}</span>
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@ span {
 	display: inline-block;
 }
 
-.card-img {
+.card-img-top {
 	width: fit-content;
 }
 
@@ -31,3 +31,8 @@ span {
 	padding: 3vmin 20vmin;
 	vertical-align: top;
   }
+
+  .search-row {
+	display: flex;
+	align-content: flex-end;
+}

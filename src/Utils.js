@@ -28,7 +28,7 @@
 const getResultById = async (search) => {
 	const apiKey = `${process.env.REACT_APP_OMDB_KEY}`
 	const baseUrl = "https://www.omdbapi.com/"
-	const url = "https://www.omdbapi.com/?i=" + search + "&apikey=" + apiKey
+	const url = baseUrl + "?i=" + search + "&apikey=" + apiKey
 	const res = await fetch(url);
 	const data = await res.json();
 	console.log(data);
@@ -38,11 +38,11 @@ const getResultById = async (search) => {
 
 
 // refactored function to fetch list of films with async, await
-const getResultsByName = async (search) => {
+const getResultsByName = async (search, page=1) => {
 	
 	const baseUrl = "https://www.omdbapi.com/"
 	const apiKey = `${process.env.REACT_APP_OMDB_KEY}`
-	const url = `${baseUrl}/?apikey=${apiKey}&s=${search}`
+	const url = `${baseUrl}/?apikey=${apiKey}&s=${search}&page=${page}`
 
 	const res = await fetch(url);
 	const data = await res.json();
