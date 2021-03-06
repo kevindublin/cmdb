@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import banner from './banner.png';
 import { getResultsByName, getResultById } from './Utils.js';
-import ResultList from './ResultList.js';
-import MovieDetails from './MovieDetails.js';
-import ResultCard from './ResultCard.js';
-import LoadingResults from './LoadingResults.js';
-import ErrorMessage from './ErrorMessage.js';
-import Modal from './Modal.js';
-import Paginator from './Paginator.js';
+import ResultList from './components/ResultList.js';
+import MovieDetails from './components/MovieDetails.js';
+import ResultCard from './components/ResultCard.js';
+import LoadingResults from './components/LoadingResults.js';
+import ErrorMessage from './components/ErrorMessage.js';
+import Modal from './components/Modal.js';
+import Paginator from './components/Paginator.js';
 
 
 class App extends Component {
