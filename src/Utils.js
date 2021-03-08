@@ -1,4 +1,4 @@
-// // original function to fetch list of films with promises
+// // original function to fetch list of films with .then
 // const getMoviesByNamePromise = (query) => {
 // 	let apiKey = `${process.env.REACT_APP_OMDB_KEY}`
 // 	let baseUrl = "https://www.omdbapi.com/"
@@ -22,8 +22,6 @@
 // 		})
 // }
 
-// getMovieDetailsById("tt0372784");
-
 // refactored function to fetch details with async, await
 const getResultById = async (search) => {
 	const apiKey = `${process.env.REACT_APP_OMDB_KEY}`
@@ -38,20 +36,17 @@ const getResultById = async (search) => {
 
 
 // refactored function to fetch list of films with async, await
-const getResultsByName = async (search, page=1) => {
+const getResultsByName = async (search, type="movie", page=1) => {
 	
 	const baseUrl = "https://www.omdbapi.com/"
 	const apiKey = `${process.env.REACT_APP_OMDB_KEY}`
-	const url = `${baseUrl}/?apikey=${apiKey}&s=${search}&page=${page}`
+	const url = `${baseUrl}/?apikey=${apiKey}&s=${search}&type=${type}&page=${page}`
 
 	const res = await fetch(url);
 	const data = await res.json();
 	console.log(data);
 	return data;
 }
-
-// getMoviesByNameB('batman')
-//	.then((data) => console.log(data))
 
 
 export {getResultsByName, getResultById};

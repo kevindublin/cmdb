@@ -16,6 +16,7 @@ class App extends Component {
 
     this.state = {
       query: "",
+      type: "movie",
       results: [],
       isLoading: false,
       gotResults: false,
@@ -33,6 +34,14 @@ class App extends Component {
     this.setState({
       ...this.state,
       query: value,
+    });
+  }
+
+  onTypeChange = (ev) => {
+    let value = ev.target.value;
+    this.setState({
+      ...this.state,
+      type: value,
     });
   }
 
@@ -56,7 +65,7 @@ class App extends Component {
     }, () => {this.onSearchSubmit()});
   }
 
-  newSearch =() => {
+  newSearch = () => {
     this.setState({
       ...this.state,
       currentPage: 1,
@@ -70,7 +79,9 @@ class App extends Component {
       isLoading: true
     });
     try {
-      let rawResults = await getResultsByName(this.state.query, this.state.currentPage);
+      let rawResults = await getResultsByName(this.state.query.trim(), 
+        this.state.type, 
+        this.state.currentPage);
       if (rawResults['Response'] === 'False') {
         this.setState({
           ...this.state,
@@ -133,7 +144,7 @@ class App extends Component {
       isLoading: true
     });
 
-    getResultsByName(this.state.query)
+    getResultsByName(this.state.query.trim())
       .then(data => {
         this.setState({
           isLoading: false,
@@ -168,6 +179,12 @@ class App extends Component {
                   id="searchQuery"
                   placeholder="search..."
                   onChange={this.onSearchChange} />
+                <select class="form-control-lg"
+                  onChangeCapture={this.onTypeChange}>
+                  <option>Movie</option>
+                  <option>Series</option>
+                  <option>Game</option>
+                </select>
                 <button className="btn btn-danger ml-2" id="searchButton" onClick={this.newSearch}>Search</button>
               </div>
             </div>

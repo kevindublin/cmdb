@@ -2,7 +2,7 @@ import React from 'react';
 import noPoster from './no-poster.png'
 
 const MovieDetails = (result) => {
-    return <div className="card col-sm-6 result-card mr-2 mb-2">
+    return <div className="card col-sm-7 result-card mr-2 mb-2">
                 <div className="row">
                     <div className="col-sm-6">
                         {result.poster === 'N/A'
