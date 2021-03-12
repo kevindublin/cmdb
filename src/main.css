@@ -12,27 +12,24 @@ span {
 }
 
 .card-img-top {
-	width: fit-content;
-}
-
-.header-image {
 	width: 100%;
 }
 
+
 .result-card {
 	min-width: 6rem;
-	max-width: 12rem;
-	min-height: 64rem;
-	max-height: 20rem;
+	max-width: 42rem;
+	min-height: 20rem;
+	max-height: 36rem;
 }
-
-.svg-loader{
-	height: 20vmin;
-	padding: 3vmin 20vmin;
-	vertical-align: top;
-  }
 
   .search-row {
 	display: flex;
 	align-content: flex-end;
 }
+
+.svg-loader{
+	height: 50vmin;
+	padding: 0vmin 20vmin;
+	vertical-align: top;
+  }

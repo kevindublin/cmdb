@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './main.css';
 import banner from './banner.png';
 import { getResultsByName, getResultById } from './Utils.js';
 import ResultList from './components/ResultList.js';
@@ -70,6 +71,15 @@ class App extends Component {
       ...this.state,
       currentPage: 1,
     }, () => {this.onSearchSubmit()});
+  }
+
+
+  onInputChange(ev) {
+    let input = ev.target.name;
+    this.setState({
+      ...this.state,
+      [input]: ev.target.value,
+    });
   }
 
   onSearchSubmit = async () => {
@@ -176,9 +186,10 @@ class App extends Component {
             <div className="col-lg-12">
               <div className="form-group col-md-6">
                 <input className="form-control-lg"
+                  name="query"
                   id="searchQuery"
                   placeholder="search..."
-                  onChange={this.onSearchChange} />
+                  onChange={(ev) => this.onInputChange(ev)} />
                 <select class="form-control-lg"
                   onChangeCapture={this.onTypeChange}>
                   <option>Movie</option>
